@@ -1,0 +1,11 @@
+random:
+  name: random
+  dataset: dataset.csv
+  random_state: 42
+als:
+  name: als
+  interactions: prepared_interactions_full.csv
+  users_features: prepared_featured_users_full.csv
+  items_features: prepared_featured_items_full.csv
+  model_filename: als_with_features.joblib
+  cold_dataset: cold_recos.csv

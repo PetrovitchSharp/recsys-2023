@@ -33,8 +33,9 @@ def create_app(config: ServiceConfig) -> FastAPI:
     setup_logging(config)
     setup_asyncio(thread_name_prefix=config.service_name)
 
-    app = FastAPI(debug=False)
+    app = FastAPI(debug=False, title="RecoService API", version="1.0.0")
     app.state.k_recs = config.k_recs
+    app.state.root_path = config.root_path
 
     add_views(app)
     add_middlewares(app)
