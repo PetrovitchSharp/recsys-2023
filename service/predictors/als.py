@@ -31,6 +31,14 @@ class ALSRecommender(BaseRecommender):
             model_cfg["als"]["cold_dataset"]
         )
 
+        self.user_ext_to_int_map = (
+            self.dataset.user_id_map.to_internal.to_dict()
+        )
+        self.item_int_to_ext_map = (
+            self.dataset.item_id_map.to_external.to_dict()
+        )
+        self.ui_csr = self.dataset.get_user_item_matrix()
+
         self.model: ImplicitALSWrapperModel = self.load_model()
 
     def load_model(self) -> Any:
@@ -45,12 +53,17 @@ class ALSRecommender(BaseRecommender):
 
     def recommend(self, user_id: int) -> List:
         if user_id in self.users:
-            reco = self.model.recommend(
-                users=[user_id],
-                dataset=self.dataset,
-                k=10,
-                filter_viewed=True,
-            ).item_id.to_list()
+            int_user_id = self.user_ext_to_int_map[user_id]
+            rec = self.model.model.recommend(
+                int_user_id,
+                user_items=self.ui_csr,
+                N=10,
+                filter_already_liked_items=True,
+            )
+            reco = [
+                self.item_int_to_ext_map[item_int_id]
+                for (item_int_id, _) in rec
+            ]
         else:
             reco = self.cold_dataset.item_id.to_list()
 
