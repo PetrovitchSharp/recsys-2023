@@ -68,4 +68,3 @@ venv.bak/
 
 #models & data
 *.joblib
-*.csv
