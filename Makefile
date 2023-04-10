@@ -53,7 +53,6 @@ flake: .venv
 	flake8 --max-line-length 120 $(PROJECT) $(TESTS)
 
 mypy: .venv
-	mypy --install-types  
 	mypy  $(PROJECT) $(TESTS)
 
 lint: isort flake mypy
