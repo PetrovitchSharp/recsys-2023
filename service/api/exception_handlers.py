@@ -44,9 +44,7 @@ async def validation_error_handler(
         for err in exc.errors()
     ]
     app_logger.error(str(errors))
-    return create_response(
-        status.HTTP_422_UNPROCESSABLE_ENTITY, errors=errors
-    )
+    return create_response(status.HTTP_422_UNPROCESSABLE_ENTITY, errors=errors)
 
 
 async def app_exception_handler(
@@ -97,14 +95,8 @@ async def user_not_found_exception_handler(
 def add_exception_handlers(app: FastAPI) -> None:
     app.add_exception_handler(HTTPException, http_error_handler)
     app.add_exception_handler(ValidationError, validation_error_handler)
-    app.add_exception_handler(
-        RequestValidationError, validation_error_handler
-    )
+    app.add_exception_handler(RequestValidationError, validation_error_handler)
     app.add_exception_handler(AppException, app_exception_handler)
-    app.add_exception_handler(
-        UserNotFoundError, user_not_found_exception_handler
-    )
-    app.add_exception_handler(
-        ModelNotFoundError, model_not_found_exception_handler
-    )
+    app.add_exception_handler(UserNotFoundError, user_not_found_exception_handler)
+    app.add_exception_handler(ModelNotFoundError, model_not_found_exception_handler)
     app.add_exception_handler(Exception, default_error_handler)

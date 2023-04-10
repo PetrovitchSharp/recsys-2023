@@ -7,12 +7,7 @@ from fastapi import APIRouter, FastAPI, Request
 from service.api.exceptions import ModelNotFoundError, UserNotFoundError
 from service.log import app_logger
 
-from ..models import (
-    HTTPValidationError,
-    HealthResponse,
-    NotFoundError,
-    RecoResponse,
-)
+from ..models import HealthResponse, HTTPValidationError, NotFoundError, RecoResponse
 from ..predictors.constructor import get_predictors
 
 predictors = get_predictors()
@@ -49,9 +44,7 @@ async def get_reco(
     app_logger.info(f"Request for model: {model_name}, user_id: {user_id}")
 
     if model_name not in predictors.keys():
-        raise ModelNotFoundError(
-            error_message=f"Model {model_name} not found"
-        )
+        raise ModelNotFoundError(error_message=f"Model {model_name} not found")
 
     if user_id > 10**9:
         raise UserNotFoundError(error_message=f"User {user_id} not found")

@@ -29,15 +29,9 @@ def get_data_with_features(
     items_features_dataset_name: str,
 ) -> Tuple[Dataset, List[int]]:
     """Get data for models trained with features"""
-    interactions = pd.read_csv(
-        os.path.join(dataset_path, interactions_dataset_name)
-    )
-    users_features = pd.read_csv(
-        os.path.join(dataset_path, users_features_dataset_name)
-    )
-    items_features = pd.read_csv(
-        os.path.join(dataset_path, items_features_dataset_name)
-    )
+    interactions = pd.read_csv(os.path.join(dataset_path, interactions_dataset_name))
+    users_features = pd.read_csv(os.path.join(dataset_path, users_features_dataset_name))
+    items_features = pd.read_csv(os.path.join(dataset_path, items_features_dataset_name))
 
     dataset = Dataset.construct(
         interactions_df=interactions,
