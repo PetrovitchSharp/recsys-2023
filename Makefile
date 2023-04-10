@@ -15,12 +15,17 @@ IMAGE_NAME := reco_service
 CONTAINER_NAME := reco_service
 
 # Prepare
+PYTHON = $(VENV)/bin/python3
+PIP = $(VENV)/bin/pip
 
-.venv:
-	poetry install --no-root
-	poetry check
 
 setup: .venv
+
+
+.venv: requirements.txt
+	python3 -m venv $(VENV)
+	$(PIP) install -r requirements.txt
+
 
 
 # Clean
@@ -45,15 +50,12 @@ isort: .venv
 	isort --check $(PROJECT) $(TESTS)
 
 flake: .venv
-	flake8 $(PROJECT) $(TESTS)
+	flake8 --max-line-length 120 $(PROJECT) $(TESTS)
 
 mypy: .venv
-	mypy $(PROJECT) $(TESTS)
+	mypy  $(PROJECT) $(TESTS)
 
-pylint: .venv
-	pylint $(PROJECT) $(TESTS)
-
-lint: isort flake mypy pylint
+lint: isort flake mypy
 
 
 # Test

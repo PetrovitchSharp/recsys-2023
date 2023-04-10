@@ -15,9 +15,7 @@ backlog = env("GUNICORN_BACKLOG", 2048)
 workers = env("GUNICORN_WORKERS", cpu_count() // 4)
 
 # The type of workers to use.
-worker_class = env(
-    "GUNICORN_WORKER_CLASS", "uvicorn.workers.UvicornWorker"
-)
+worker_class = env("GUNICORN_WORKER_CLASS", "uvicorn.workers.UvicornWorker")
 
 # The maximum number of requests a worker will process before restarting.
 max_requests = env("GUNICORN_MAX_REQUESTS", 1024)
