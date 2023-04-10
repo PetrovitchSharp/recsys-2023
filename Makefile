@@ -50,10 +50,11 @@ isort: .venv
 	isort --check $(PROJECT) $(TESTS)
 
 flake: .venv
-	flake8 $(PROJECT) $(TESTS)
+	flake8 --max-line-length 120 $(PROJECT) $(TESTS)
 
 mypy: .venv
-	mypy $(PROJECT) $(TESTS)
+	mypy --install-types  
+	mypy  $(PROJECT) $(TESTS)
 
 lint: isort flake mypy
 
