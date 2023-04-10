@@ -1,78 +1,79 @@
-anyio==3.6.2 ; python_full_version == "3.9.16"
-astroid==2.15.2 ; python_full_version == "3.9.16"
-attrs==21.4.0 ; python_full_version == "3.9.16"
-certifi==2022.12.7 ; python_full_version == "3.9.16"
-cfgv==3.3.1 ; python_full_version == "3.9.16"
-charset-normalizer==3.1.0 ; python_full_version == "3.9.16"
-click==8.1.3 ; python_full_version == "3.9.16"
-colorama==0.4.6 ; python_full_version == "3.9.16" and sys_platform == "win32" or python_full_version == "3.9.16" and platform_system == "Windows"
-contourpy==1.0.7 ; python_full_version == "3.9.16"
-cycler==0.11.0 ; python_full_version == "3.9.16"
-dill==0.3.6 ; python_full_version == "3.9.16"
-distlib==0.3.6 ; python_full_version == "3.9.16"
-exceptiongroup==1.1.1 ; python_full_version == "3.9.16"
-fastapi==0.95.0 ; python_full_version == "3.9.16"
-filelock==3.10.7 ; python_full_version == "3.9.16"
-fonttools==4.39.3 ; python_full_version == "3.9.16"
-gunicorn==20.1.0 ; python_full_version == "3.9.16"
-h11==0.14.0 ; python_full_version == "3.9.16"
-identify==2.5.22 ; python_full_version == "3.9.16"
-idna==3.4 ; python_full_version == "3.9.16"
-implicit==0.4.4 ; python_full_version == "3.9.16"
-importlib-resources==5.12.0 ; python_full_version == "3.9.16"
-iniconfig==2.0.0 ; python_full_version == "3.9.16"
-isort==5.12.0 ; python_full_version == "3.9.16"
-joblib==1.2.0 ; python_full_version == "3.9.16"
-kiwisolver==1.4.4 ; python_full_version == "3.9.16"
-lazy-object-proxy==1.9.0 ; python_full_version == "3.9.16"
-lightfm==1.17 ; python_full_version == "3.9.16"
-markdown==3.2.2 ; python_full_version == "3.9.16"
-matplotlib==3.7.1 ; python_full_version == "3.9.16"
-mccabe==0.7.0 ; python_full_version == "3.9.16"
-mypy-extensions==1.0.0 ; python_full_version == "3.9.16"
-mypy==1.1.1 ; python_full_version == "3.9.16"
-nmslib==2.1.1 ; python_full_version == "3.9.16"
-nodeenv==1.7.0 ; python_full_version == "3.9.16"
-numpy==1.24.2 ; python_full_version == "3.9.16"
-orjson==3.8.9 ; python_full_version == "3.9.16"
-packaging==23.0 ; python_full_version == "3.9.16"
-pandas==1.5.3 ; python_full_version == "3.9.16"
-pillow==9.5.0 ; python_full_version == "3.9.16"
-platformdirs==3.2.0 ; python_full_version == "3.9.16"
-plotly==5.14.0 ; python_full_version == "3.9.16"
-pluggy==1.0.0 ; python_full_version == "3.9.16"
-pre-commit==3.2.1 ; python_full_version == "3.9.16"
-prometheus-client==0.12.0 ; python_full_version == "3.9.16"
-prometheus-fastapi-instrumentator==6.0.0 ; python_full_version == "3.9.16"
-psutil==5.9.4 ; python_full_version == "3.9.16"
-pybind11==2.6.1 ; python_full_version == "3.9.16"
-pydantic==1.10.7 ; python_full_version == "3.9.16"
-pylint==2.17.2 ; python_full_version == "3.9.16"
-pyparsing==3.0.9 ; python_full_version == "3.9.16"
-pytest==7.2.2 ; python_full_version == "3.9.16"
-python-dateutil==2.8.2 ; python_full_version == "3.9.16"
-pytz==2023.3 ; python_full_version == "3.9.16"
-pyyaml==6.0 ; python_full_version == "3.9.16"
-rectools==0.3.0 ; python_full_version == "3.9.16"
-requests==2.28.2 ; python_full_version == "3.9.16"
-scikit-learn==1.2.2 ; python_full_version == "3.9.16"
-scipy==1.10.1 ; python_full_version == "3.9.16"
-seaborn==0.12.2 ; python_full_version == "3.9.16"
-setuptools==67.6.1 ; python_full_version == "3.9.16"
-six==1.16.0 ; python_full_version == "3.9.16"
-sniffio==1.3.0 ; python_full_version == "3.9.16"
-starlette-prometheus==0.9.0 ; python_full_version == "3.9.16"
-starlette==0.26.1 ; python_full_version == "3.9.16"
-tenacity==8.2.2 ; python_full_version == "3.9.16"
-threadpoolctl==3.1.0 ; python_full_version == "3.9.16"
-tomli==2.0.1 ; python_full_version == "3.9.16"
-tomlkit==0.11.7 ; python_full_version == "3.9.16"
-tqdm==4.65.0 ; python_full_version == "3.9.16"
-typeguard==2.13.3 ; python_full_version == "3.9.16"
-typing-extensions==4.5.0 ; python_full_version == "3.9.16"
-urllib3==1.26.15 ; python_full_version == "3.9.16"
-uvicorn==0.21.1 ; python_full_version == "3.9.16"
-uvloop==0.17.0 ; python_full_version == "3.9.16"
-virtualenv==20.21.0 ; python_full_version == "3.9.16"
-wrapt==1.15.0 ; python_full_version == "3.9.16"
-zipp==3.15.0 ; python_full_version == "3.9.16"
+anyio==3.6.2
+astroid==2.15.2
+attrs==21.4.0
+certifi==2022.12.7
+cfgv==3.3.1
+charset-normalizer==3.1.0
+click==8.1.3
+contourpy==1.0.7
+cycler==0.11.0
+dill==0.3.6
+distlib==0.3.6
+exceptiongroup==1.1.1
+fastapi==0.95.0
+filelock==3.10.7
+fonttools==4.39.3
+gunicorn==20.1.0
+h11==0.14.0
+httpcore==0.16.3
+httpx==0.23.3
+identify==2.5.22
+idna==3.4
+implicit==0.4.4
+importlib-resources==5.12.0
+iniconfig==2.0.0
+isort==5.12.0
+joblib==1.2.0
+kiwisolver==1.4.4
+lazy-object-proxy==1.9.0
+lightfm==1.17
+Markdown==3.2.2
+matplotlib==3.7.1
+mccabe==0.7.0
+mypy==1.1.1
+mypy-extensions==1.0.0
+nmslib==2.1.1
+nodeenv==1.7.0
+numpy==1.24.2
+orjson==3.8.9
+packaging==23.0
+pandas==1.5.3
+Pillow==9.5.0
+platformdirs==3.2.0
+plotly==5.14.0
+pluggy==1.0.0
+pre-commit==3.2.1
+prometheus-client==0.12.0
+prometheus-fastapi-instrumentator==6.0.0
+psutil==5.9.4
+pybind11==2.6.1
+pydantic==1.10.7
+pylint==2.17.2
+pyparsing==3.0.9
+pytest==7.2.2
+python-dateutil==2.8.2
+pytz==2023.3
+PyYAML==6.0
+rectools==0.3.0
+requests==2.28.2
+rfc3986==1.5.0
+scikit-learn==1.2.2
+scipy==1.10.1
+seaborn==0.12.2
+six==1.16.0
+sniffio==1.3.0
+starlette==0.26.1
+starlette-prometheus==0.9.0
+tenacity==8.2.2
+threadpoolctl==3.1.0
+tomli==2.0.1
+tomlkit==0.11.7
+tqdm==4.65.0
+typeguard==2.13.3
+typing_extensions==4.5.0
+urllib3==1.26.15
+uvicorn==0.21.1
+uvloop==0.17.0
+virtualenv==20.21.0
+wrapt==1.15.0
+zipp==3.15.0
