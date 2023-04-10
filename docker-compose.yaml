@@ -9,7 +9,6 @@ services:
       - 8000:8000
     networks:
       example-network:
-        ipv4_address: 172.16.238.10
 
 
   prometheus:
