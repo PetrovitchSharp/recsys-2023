@@ -1,0 +1,6 @@
+*
+!service
+!gunicorn.config.py
+!main.py
+!pyproject.toml
+!README.md
