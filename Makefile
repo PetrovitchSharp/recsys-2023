@@ -22,9 +22,9 @@ PIP = $(VENV)/bin/pip
 setup: .venv
 
 
-.venv: requirements.txt
+.venv: 
 	python3 -m venv $(VENV)
-	$(PIP) install -r requirements.txt
+	$(PIP) install -r ci-requirements.txt
 
 
 
