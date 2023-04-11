@@ -43,7 +43,9 @@ async def get_reco(
     """
     app_logger.info(f"Request for model: {model_name}, user_id: {user_id}")
 
-    if model_name not in predictors.keys():
+    predictors_list = predictors.keys()
+
+    if model_name not in predictors_list:
         raise ModelNotFoundError(error_message=f"Model {model_name} not found")
 
     if user_id > 10**9:

@@ -17,5 +17,5 @@ class BaseRecommender(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def recommend(self, model) -> List:
+    def recommend(self, user_id) -> List:
         raise NotImplementedError()

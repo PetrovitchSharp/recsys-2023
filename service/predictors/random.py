@@ -8,9 +8,6 @@ model_cfg = get_predictors_config()
 
 
 class RandomRecommender(BaseRecommender):
-    def __init__(self) -> None:
-        super().__init__()
-
     def load_model(self) -> Any:
         random.seed(model_cfg["random"]["random_state"])
 

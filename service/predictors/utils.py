@@ -84,7 +84,8 @@ def get_predictors_config() -> Dict:
         os.path.join(
             app_config.root_path,
             "service/predictors/predictors_config.yaml",
-        )
+        ),
+        encoding="ascii",
     ) as f:
         config = yaml.safe_load(f)
     return config
