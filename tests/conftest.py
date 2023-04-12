@@ -4,12 +4,12 @@ from fastapi import FastAPI
 from starlette.testclient import TestClient
 
 from service.api.app import create_app
-from service.settings import AppMode, ServiceConfig, get_config
+from service.settings import ServiceConfig, get_config
 
 
 @pytest.fixture
 def service_config() -> ServiceConfig:
-    return get_config(AppMode.TEST)
+    return get_config()
 
 
 @pytest.fixture

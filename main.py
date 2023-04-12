@@ -3,9 +3,9 @@ import os
 import uvicorn
 
 from service.api.app import create_app
-from service.settings import AppMode, get_config
+from service.settings import get_config
 
-config = get_config(AppMode.PROD)
+config = get_config()
 app = create_app(config)
 
 
