@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 from typing import Any, List
 
-from ..settings import get_config
+from ..settings import AppMode, get_config
 
-app_config = get_config()
+app_config = get_config(AppMode.PROD)
 
 
 class BaseRecommender(ABC):

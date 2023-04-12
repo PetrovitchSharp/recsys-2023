@@ -8,9 +8,9 @@ import yaml
 from rectools import Columns
 from rectools.dataset import Dataset
 
-from ..settings import get_config
+from ..settings import AppMode, get_config
 
-app_config = get_config()
+app_config = get_config(AppMode.PROD)
 dataset_path = app_config.dataset_path
 
 
