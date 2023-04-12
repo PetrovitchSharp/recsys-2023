@@ -4,26 +4,26 @@ from typing import Any, List
 import joblib
 from rectools.models import ImplicitALSWrapperModel
 
+from ..settings import ServiceConfig
 from .base import BaseRecommender
-from .utils import get_cold_user_predictions_from_offline, get_data_with_features, get_predictors_config
-
-model_cfg = get_predictors_config()
+from .utils import get_cold_user_predictions_from_offline, get_data_with_features
 
 
 class ALSRecommender(BaseRecommender):
     """Recommender based on Implicit ALS
     with nmslib ANN (online realization)"""
 
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, cfg: ServiceConfig) -> None:
+        super().__init__(cfg)
         # Loading dataset with features and list of non-cold users
         self.dataset, self.users = get_data_with_features(
-            model_cfg["als"]["interactions"],
-            model_cfg["als"]["users_features"],
-            model_cfg["als"]["items_features"],
+            self.model_cfg["als"]["interactions"],
+            self.model_cfg["als"]["users_features"],
+            self.model_cfg["als"]["items_features"],
+            cfg,
         )
         # Loading recommendations for cold users
-        self.cold_dataset = get_cold_user_predictions_from_offline(model_cfg["als"]["cold_dataset"])
+        self.cold_dataset = get_cold_user_predictions_from_offline(self.model_cfg["als"]["cold_dataset"], cfg)
 
         self.user_ext_to_int_map = self.dataset.user_id_map.to_internal.to_dict()
         self.item_int_to_ext_map = self.dataset.item_id_map.to_external.to_dict()
@@ -33,7 +33,7 @@ class ALSRecommender(BaseRecommender):
 
     def load_model(self) -> Any:
         # Loading base pretrained ALS models
-        base_model = joblib.load(os.path.join(self.predictors_path, model_cfg["als"]["model_filename"]))
+        base_model = joblib.load(os.path.join(self.predictors_path, self.model_cfg["als"]["model_filename"]))
 
         return base_model
 
@@ -53,9 +53,9 @@ class ALSRecommender(BaseRecommender):
         return reco
 
     def __repr__(self) -> str:
-        return f"""{type(self).__name__}(model={model_cfg["als"]["model_filename"]},
-                    dataset={model_cfg["als"]["dataset"]})"""
+        return f"""{type(self).__name__}(model={self.model_cfg["als"]["model_filename"]},
+                    dataset={self.model_cfg["als"]["dataset"]})"""
 
 
-def get_als_predictor() -> Any:
-    return ALSRecommender()
+def get_als_predictor(cfg: ServiceConfig) -> Any:
+    return ALSRecommender(cfg)

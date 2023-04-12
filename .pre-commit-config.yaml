@@ -27,7 +27,8 @@ repos:
   rev: v0.812
   hooks:
     - id: mypy
-
+      agrs: ['--ignore-missing-imports']
+        
 - repo: https://github.com/asottile/pyupgrade
   rev: v1.17.1
   hooks:
