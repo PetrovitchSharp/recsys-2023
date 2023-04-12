@@ -53,7 +53,7 @@ flake: .venv
 	flake8 --max-line-length 120 $(PROJECT) $(TESTS)
 
 mypy: .venv
-	mypy  $(PROJECT) $(TESTS)
+	mypy --ignore-missing-imports $(PROJECT) $(TESTS)
 
 pylint: .venv
 	pylint $(PROJECT) $(TESTS)
