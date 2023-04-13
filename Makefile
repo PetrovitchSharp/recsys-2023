@@ -50,10 +50,10 @@ isort: .venv
 	isort --check $(PROJECT) $(TESTS)
 
 flake: .venv
-	flake8 --max-line-length 120 $(PROJECT) $(TESTS)
+	flake8 $(PROJECT) $(TESTS)
 
 mypy: .venv
-	mypy --ignore-missing-imports $(PROJECT) $(TESTS)
+	mypy $(PROJECT) $(TESTS)
 
 pylint: .venv
 	pylint $(PROJECT) $(TESTS)
