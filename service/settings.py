@@ -23,8 +23,8 @@ class ServiceConfig(Config):
     service_name: str = "reco_service"
     k_recs: int = 10
     root_path: str = os.getcwd()
-    predictors_path: str = os.getenv("PREDICTORS_PATH")
-    dataset_path: str = os.getenv("DATASET_PATH")
+    predictors_path: str
+    dataset_path: str
 
     log_config: LogConfig
 
