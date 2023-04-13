@@ -55,6 +55,7 @@ confidence=
 # Disable the message, report, category or checker with the given id(s).
 disable=R0022,
         W0012,
+        import-outside-toplevel,
         import-star-module-level,
         raw-checker-failed,
         bad-inline-option,
