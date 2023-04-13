@@ -1,4 +1,4 @@
-# pylint: disable=redefined-outer-name, import-outside-toplevel
+# pylint: disable=redefined-outer-name
 import os
 from typing import Iterator
 
@@ -8,6 +8,8 @@ from fastapi import FastAPI
 from starlette.testclient import TestClient
 
 from service.settings import ServiceConfig
+from service.settings import get_config
+from service.api.app import create_app
 
 
 @pytest.fixture
@@ -24,7 +26,7 @@ def set_env() -> Iterator[None]:
 
 @pytest.fixture
 def service_config(set_env: None) -> ServiceConfig:
-    from service.settings import get_config
+
 
     return get_config()
 
@@ -33,7 +35,7 @@ def service_config(set_env: None) -> ServiceConfig:
 def app(
     service_config: ServiceConfig,
 ) -> FastAPI:
-    from service.api.app import create_app
+
 
     app = create_app(service_config)
     return app
