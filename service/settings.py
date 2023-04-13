@@ -1,3 +1,4 @@
+# mypy: disable-error-code="call-arg"
 import os
 
 from pydantic import BaseSettings
