@@ -7,9 +7,8 @@ from _pytest.monkeypatch import MonkeyPatch
 from fastapi import FastAPI
 from starlette.testclient import TestClient
 
-from service.settings import ServiceConfig
-from service.settings import get_config
 from service.api.app import create_app
+from service.settings import ServiceConfig, get_config
 
 
 @pytest.fixture
@@ -26,8 +25,6 @@ def set_env() -> Iterator[None]:
 
 @pytest.fixture
 def service_config(set_env: None) -> ServiceConfig:
-
-
     return get_config()
 
 
@@ -35,8 +32,6 @@ def service_config(set_env: None) -> ServiceConfig:
 def app(
     service_config: ServiceConfig,
 ) -> FastAPI:
-
-
     app = create_app(service_config)
     return app
 
