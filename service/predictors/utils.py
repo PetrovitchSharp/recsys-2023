@@ -1,17 +1,20 @@
 import os
-from typing import Dict, List, Tuple
+from typing import Any, List, Tuple
 
 import pandas as pd
 import yaml
 from rectools import Columns
 from rectools.dataset import Dataset
 
-from ..settings import ServiceConfig
+from ..settings import get_config
+
+global_cfg = get_config()
+dataset_path = global_cfg.dataset_path
 
 
-def get_data(dataset_name: str, cfg: ServiceConfig) -> Tuple[Dataset, List[int]]:
+def get_data(dataset_name: str) -> Tuple[Dataset, List[int]]:
     """Get data for models trained without features"""
-    df = pd.read_csv(os.path.join(cfg.dataset_path, dataset_name))
+    df = pd.read_csv(os.path.join(dataset_path, dataset_name))
     dataset = Dataset.construct(df)
     users = df[Columns.User].unique()
 
@@ -22,12 +25,11 @@ def get_data_with_features(
     interactions_dataset_name: str,
     users_features_dataset_name: str,
     items_features_dataset_name: str,
-    cfg: ServiceConfig,
 ) -> Tuple[Dataset, List[int]]:
     """Get data for models trained with features"""
-    interactions = pd.read_csv(os.path.join(cfg.dataset_path, interactions_dataset_name))
-    users_features = pd.read_csv(os.path.join(cfg.dataset_path, users_features_dataset_name))
-    items_features = pd.read_csv(os.path.join(cfg.dataset_path, items_features_dataset_name))
+    interactions = pd.read_csv(os.path.join(dataset_path, interactions_dataset_name))
+    users_features = pd.read_csv(os.path.join(dataset_path, users_features_dataset_name))
+    items_features = pd.read_csv(os.path.join(dataset_path, items_features_dataset_name))
 
     dataset = Dataset.construct(
         interactions_df=interactions,
@@ -48,24 +50,21 @@ def get_data_with_features(
     return dataset, users
 
 
-def get_cold_user_predictions_from_offline(
-    cold_dataset: str,
-    cfg: ServiceConfig,
-) -> pd.DataFrame:
+def get_cold_user_predictions_from_offline(cold_dataset: str) -> pd.DataFrame:
     """Get offline recommendations for cold users"""
-    df = pd.read_csv(os.path.join(cfg.dataset_path, cold_dataset))
+    df = pd.read_csv(os.path.join(dataset_path, cold_dataset))
 
     return df
 
 
-def get_predictors_config(cfg: ServiceConfig) -> Dict:
+def get_predictors_config() -> Any:
     """Get config"""
     with open(
         os.path.join(
-            cfg.root_path,
+            global_cfg.root_path,
             "service/predictors/predictors_config.yaml",
         ),
         encoding="ascii",
     ) as f:
-        config = yaml.safe_load(f)
-    return config
+        predictors_config = yaml.safe_load(f)
+    return predictors_config

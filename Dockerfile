@@ -23,6 +23,8 @@ COPY --from=build dist dist
 COPY --from=build main.py gunicorn.config.py ./
 COPY --from=build service ./service
 
+ENV DATASET_PATH=/usr/src/app/service/data/dataset
+ENV PREDICTORS_PATH=/usr/src/app/service/data/predictors
 
 RUN pip install -U --no-cache-dir pip dist/*.whl && \
     rm -rf dist

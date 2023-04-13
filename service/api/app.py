@@ -37,7 +37,7 @@ def create_app(config: ServiceConfig) -> FastAPI:
     app.state.k_recs = config.k_recs
     app.state.root_path = config.root_path
 
-    add_views(app, config)
+    add_views(app)
     add_middlewares(app)
     add_exception_handlers(app)
 
