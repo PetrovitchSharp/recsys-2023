@@ -8,8 +8,9 @@ from .base import BaseRecommender
 class RandomRecommender(BaseRecommender):
     def __init__(self, global_cfg: ServiceConfig) -> None:
         super().__init__(global_cfg)
+        self.load_model(global_cfg)
 
-    def load_model(self) -> Any:
+    def load_model(self, global_cfg: ServiceConfig) -> Any:
         random.seed(self.model_cfg["random"]["random_state"])
 
     def recommend(self, user_id: int) -> List:

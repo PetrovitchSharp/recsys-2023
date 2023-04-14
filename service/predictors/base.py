@@ -12,7 +12,7 @@ class BaseRecommender(ABC):
         self.model_cfg = get_predictors_config(global_cfg)
 
     @abstractmethod
-    def load_model(self) -> Any:
+    def load_model(self, global_cfg: ServiceConfig) -> Any:
         raise NotImplementedError()
 
     @abstractmethod
