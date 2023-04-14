@@ -5,7 +5,7 @@ from ..settings import ServiceConfig
 from .als import get_als_predictor
 from .random import get_random_predictor
 
-predictors = dict()
+predictors = {}
 
 
 def load_predictors(config: ServiceConfig) -> None:
