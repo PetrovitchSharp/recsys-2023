@@ -6,6 +6,7 @@ import uvloop
 from fastapi import FastAPI
 
 from ..log import app_logger, setup_logging
+from ..predictors.constructor import load_predictors
 from ..settings import ServiceConfig
 from .exception_handlers import add_exception_handlers
 from .middlewares import add_middlewares
@@ -36,8 +37,10 @@ def create_app(config: ServiceConfig) -> FastAPI:
     app = FastAPI(debug=False, title="RecoService API", version="1.0.0")
     app.state.k_recs = config.k_recs
     app.state.root_path = config.root_path
+    app.state.config = config
 
-    add_views(app, config)
+    load_predictors(config)
+    add_views(app)
     add_middlewares(app)
     add_exception_handlers(app)
 

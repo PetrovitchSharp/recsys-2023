@@ -6,6 +6,9 @@ from .base import BaseRecommender
 
 
 class RandomRecommender(BaseRecommender):
+    def __init__(self, global_cfg: ServiceConfig) -> None:
+        super().__init__(global_cfg)
+
     def load_model(self) -> Any:
         random.seed(self.model_cfg["random"]["random_state"])
 
@@ -18,5 +21,5 @@ class RandomRecommender(BaseRecommender):
         return f"""{type(self).__name__}(model={self.model_cfg["random"]["model_filename"]}"""
 
 
-def get_random_predictor(cfg: ServiceConfig) -> Any:
-    return RandomRecommender(cfg)
+def get_random_predictor(global_cfg: ServiceConfig) -> Any:
+    return RandomRecommender(global_cfg)
