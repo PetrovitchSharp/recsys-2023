@@ -4,38 +4,36 @@ from typing import Any, List
 import joblib
 from rectools.models import ImplicitALSWrapperModel
 
-from ..settings import get_config
+from ..settings import ServiceConfig
 from .base import BaseRecommender
-from .utils import get_cold_user_predictions_from_offline, get_data_with_features, get_predictors_config
-
-global_cfg = get_config()
-model_cfg = get_predictors_config()
+from .utils import get_cold_user_predictions_from_offline, get_data_with_features
 
 
 class ALSRecommender(BaseRecommender):
     """Recommender based on Implicit ALS
     with nmslib ANN (online realization)"""
 
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, global_cfg: ServiceConfig) -> None:
+        super().__init__(global_cfg)
         # Loading dataset with features and list of non-cold users
         self.dataset, self.users = get_data_with_features(
-            model_cfg["als"]["interactions"],
-            model_cfg["als"]["users_features"],
-            model_cfg["als"]["items_features"],
+            self.model_cfg["als"]["interactions"],
+            self.model_cfg["als"]["users_features"],
+            self.model_cfg["als"]["items_features"],
+            global_cfg,
         )
         # Loading recommendations for cold users
-        self.cold_dataset = get_cold_user_predictions_from_offline(model_cfg["als"]["cold_dataset"])
+        self.cold_dataset = get_cold_user_predictions_from_offline(self.model_cfg["als"]["cold_dataset"], global_cfg)
 
         self.user_ext_to_int_map = self.dataset.user_id_map.to_internal.to_dict()
         self.item_int_to_ext_map = self.dataset.item_id_map.to_external.to_dict()
         self.ui_csr = self.dataset.get_user_item_matrix()
 
-        self.model: ImplicitALSWrapperModel = self.load_model()
+        self.model: ImplicitALSWrapperModel = self.load_model(global_cfg)
 
-    def load_model(self) -> Any:
+    def load_model(self, global_cfg: ServiceConfig) -> Any:
         # Loading base pretrained ALS models
-        base_model = joblib.load(os.path.join(global_cfg.predictors_path, model_cfg["als"]["model_filename"]))
+        base_model = joblib.load(os.path.join(global_cfg.predictors_path, self.model_cfg["als"]["model_filename"]))
 
         return base_model
 
@@ -55,9 +53,9 @@ class ALSRecommender(BaseRecommender):
         return reco
 
     def __repr__(self) -> str:
-        return f"""{type(self).__name__}(model={model_cfg["als"]["model_filename"]},
-                    dataset={model_cfg["als"]["dataset"]})"""
+        return f"""{type(self).__name__}(model={self.model_cfg["als"]["model_filename"]},
+                    dataset={self.model_cfg["als"]["dataset"]})"""
 
 
-def get_als_predictor() -> Any:
-    return ALSRecommender()
+def get_als_predictor(global_cfg: ServiceConfig) -> Any:
+    return ALSRecommender(global_cfg)
