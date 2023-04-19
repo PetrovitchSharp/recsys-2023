@@ -1,6 +1,5 @@
 random:
   name: random
-  dataset: dataset.csv
   random_state: 42
 als:
   name: als

@@ -49,12 +49,8 @@ class HealthResponse(BaseModel):
     health: str = Field(..., title="Health")
 
     class Config:
-        schema_extra = {
-            "example": {"health": "I am alive. Everything is OK!"}
-        }
+        schema_extra = {"example": {"health": "I am alive. Everything is OK!"}}
 
 
 class HTTPValidationError(BaseModel):
-    detail: Optional[List[ValidationError]] = Field(
-        None, title="Validation Error"
-    )
+    detail: Optional[List[ValidationError]] = Field(None, title="Validation Error")

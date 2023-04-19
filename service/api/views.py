@@ -4,18 +4,11 @@ from typing import Union
 
 from fastapi import APIRouter, FastAPI, Request
 
-from service.api.exceptions import ModelNotFoundError, UserNotFoundError
+from service.api.exceptions import UserNotFoundError
 from service.log import app_logger
 
-from ..models import (
-    HTTPValidationError,
-    HealthResponse,
-    NotFoundError,
-    RecoResponse,
-)
-from ..predictors.constructor import get_predictors
-
-predictors = get_predictors()
+from ..models import HealthResponse, HTTPValidationError, NotFoundError, RecoResponse
+from ..predictors.constructor import get_predictor
 
 router = APIRouter()
 
@@ -48,15 +41,12 @@ async def get_reco(
     """
     app_logger.info(f"Request for model: {model_name}, user_id: {user_id}")
 
-    if model_name not in predictors.keys():
-        raise ModelNotFoundError(
-            error_message=f"Model {model_name} not found"
-        )
+    model = get_predictor(model_name)
 
     if user_id > 10**9:
         raise UserNotFoundError(error_message=f"User {user_id} not found")
 
-    reco = predictors[model_name].recommend(user_id)
+    reco = model.recommend(user_id)
 
     return RecoResponse(user_id=user_id, items=reco)
 

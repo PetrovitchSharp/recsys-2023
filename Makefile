@@ -15,12 +15,17 @@ IMAGE_NAME := reco_service
 CONTAINER_NAME := reco_service
 
 # Prepare
+PYTHON = $(VENV)/bin/python3
+PIP = $(VENV)/bin/pip
 
-.venv:
-	poetry install --no-root
-	poetry check
 
 setup: .venv
+
+
+.venv: 
+	python3 -m venv $(VENV)
+	$(PIP) install -r ci-requirements.txt
+
 
 
 # Clean
