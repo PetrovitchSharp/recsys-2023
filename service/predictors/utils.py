@@ -9,9 +9,9 @@ from rectools.dataset import Dataset
 from ..settings import ServiceConfig
 
 
-def get_items_list(items_features_dataset_name: str, global_cfg: ServiceConfig) -> List[str]:
+def get_items_list(items_dataset_name: str, global_cfg: ServiceConfig) -> List[str]:
     """Get items list"""
-    df = pd.read_csv(os.path.join(global_cfg.dataset_path, items_features_dataset_name))
+    df = pd.read_csv(os.path.join(global_cfg.dataset_path, items_dataset_name))
 
     return df["id"].unique()
 
