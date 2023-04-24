@@ -1,5 +1,5 @@
 import random
-from typing import Any, List
+from typing import Any, List, Tuple
 
 from ..settings import ServiceConfig
 from .base import BaseRecommender
@@ -17,6 +17,9 @@ class RandomRecommender(BaseRecommender):
         reco = random.sample(range(1000), self.k_recs)
 
         return reco
+
+    def explain_reco(self, user_id: int, item_id: int) -> Tuple[float, List]:
+        raise NotImplementedError()
 
     def __repr__(self) -> str:
         return f"""{type(self).__name__}(model={self.model_cfg["random"]["model_filename"]}"""

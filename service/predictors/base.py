@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, List
+from typing import Any, List, Tuple
 
 from ..settings import ServiceConfig
 from .utils import get_predictors_config
@@ -16,5 +16,9 @@ class BaseRecommender(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def recommend(self, user_id) -> List:
+    def recommend(self, user_id: int) -> List:
+        raise NotImplementedError()
+
+    @abstractmethod
+    def explain_reco(self, user_id: int, item_id: int) -> Tuple[float, List]:
         raise NotImplementedError()

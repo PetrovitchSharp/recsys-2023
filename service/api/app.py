@@ -7,6 +7,7 @@ from fastapi import FastAPI
 
 from ..log import app_logger, setup_logging
 from ..predictors.constructor import load_predictors
+from ..predictors.explainer import load_explanation_data
 from ..settings import ServiceConfig
 from .exception_handlers import add_exception_handlers
 from .middlewares import add_middlewares
@@ -40,6 +41,7 @@ def create_app(config: ServiceConfig) -> FastAPI:
     app.state.config = config
 
     load_predictors(config)
+    load_explanation_data(config)
     add_views(app)
     add_middlewares(app)
     add_exception_handlers(app)

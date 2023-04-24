@@ -1,5 +1,5 @@
 import os
-from typing import Any, List
+from typing import Any, List, Tuple
 
 import joblib
 from rectools.models import ImplicitALSWrapperModel
@@ -27,6 +27,7 @@ class ALSRecommender(BaseRecommender):
 
         self.user_ext_to_int_map = self.dataset.user_id_map.to_internal.to_dict()
         self.item_int_to_ext_map = self.dataset.item_id_map.to_external.to_dict()
+        self.item_ext_to_int_map = self.dataset.item_id_map.to_internal.to_dict()
         self.ui_csr = self.dataset.get_user_item_matrix()
 
         self.model: ImplicitALSWrapperModel = self.load_model(global_cfg)
@@ -51,6 +52,23 @@ class ALSRecommender(BaseRecommender):
             reco = self.cold_dataset.item_id.to_list()
 
         return reco
+
+    def explain_reco(self, user_id: int, item_id: int) -> Tuple[float, List]:
+        item_score, top_contributors, _ = self.model.model.explain(
+            userid=user_id,
+            user_items=self.ui_csr,
+            itemid=item_id,
+            N=1,
+        )
+
+        top_contributor = self.item_int_to_ext_map[top_contributors[0][0]]
+
+        return item_score, top_contributor
+
+    @property
+    def users(self):
+        # Return model's hot users
+        return self.users
 
     def __repr__(self) -> str:
         return f"""{type(self).__name__}(model={self.model_cfg["als"]["model_filename"]},
