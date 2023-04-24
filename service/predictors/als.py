@@ -1,3 +1,5 @@
+# mypy: disable-error-code="misc"
+# pylint: disable=too-many-instance-attributes
 import os
 from typing import Any, List, Tuple
 

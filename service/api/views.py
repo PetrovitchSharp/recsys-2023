@@ -31,7 +31,7 @@ async def explain(request: Request, model_name: str, user_id: int, item_id: int)
     """
     Explain recommendation
     """
-    p = 0
+    p = 0.0
     explanation = ""
 
     model = get_predictor(model_name)

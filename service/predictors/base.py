@@ -1,3 +1,5 @@
+# mypy: disable-error-code="misc"
+# pylint: disable=no-method-argument
 from abc import ABC, abstractmethod
 from typing import Any, List, Tuple
 
@@ -21,4 +23,8 @@ class BaseRecommender(ABC):
 
     @abstractmethod
     def explain_reco(self, user_id: int, item_id: int) -> Tuple[float, List]:
+        raise NotImplementedError()
+
+    @property
+    def users() -> List:
         raise NotImplementedError()
