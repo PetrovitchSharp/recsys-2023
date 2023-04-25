@@ -56,8 +56,8 @@ def test_get_explanation_for_als_success(client: TestClient) -> None:
 
 
 def test_get_explanation_for_unknown_model(client: TestClient) -> None:
-    user_id = 0
-    item_id = 0
+    user_id = 555088  # user_id from mock data
+    item_id = 12173  # item_id from mock data
     path = GET_EXPLANATION_PATH.format(model_name="unknown", user_id=user_id, item_id=item_id)
     with client:
         response = client.get(path)
@@ -67,7 +67,7 @@ def test_get_explanation_for_unknown_model(client: TestClient) -> None:
 
 def test_get_explanation_for_unknown_user(client: TestClient) -> None:
     user_id = 10**10
-    item_id = 0
+    item_id = 12173  # item_id from mock data
     path = GET_EXPLANATION_PATH.format(model_name="als", user_id=user_id, item_id=item_id)
     with client:
         response = client.get(path)
@@ -76,7 +76,7 @@ def test_get_explanation_for_unknown_user(client: TestClient) -> None:
 
 
 def test_get_explanation_for_unknown_item(client: TestClient) -> None:
-    user_id = 0
+    user_id = 555088  # user_id from mock data
     item_id = 10**10
     path = GET_EXPLANATION_PATH.format(model_name="als", user_id=user_id, item_id=item_id)
     with client:
