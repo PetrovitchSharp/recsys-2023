@@ -20,6 +20,10 @@ class RandomRecommender(BaseRecommender):
 
     def explain_reco(self, user_id: int, item_id: int) -> Tuple[float, List]:
         raise NotImplementedError()
+    
+    @property
+    def users(self) -> List:
+        raise NotImplementedError()
 
     def __repr__(self) -> str:
         return f"""{type(self).__name__}(model={self.model_cfg["random"]["model_filename"]}"""

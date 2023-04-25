@@ -12,6 +12,7 @@ class BaseRecommender(ABC):
         super().__init__()
         self.k_recs = global_cfg.k_recs
         self.model_cfg = get_predictors_config(global_cfg)
+        self.users = None
 
     @abstractmethod
     def load_model(self, global_cfg: ServiceConfig) -> Any:
@@ -26,5 +27,5 @@ class BaseRecommender(ABC):
         raise NotImplementedError()
 
     @property
-    def users() -> List:
+    def users(self) -> List:
         raise NotImplementedError()
