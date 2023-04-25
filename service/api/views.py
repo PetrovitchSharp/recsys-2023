@@ -41,7 +41,7 @@ async def explain(request: Request, model_name: str, user_id: int, item_id: int)
     items_rating = get_user_rating()
 
     # If the user is not in the database at all, we throw an error
-    if user_id not in all_users["user_id"]:
+    if user_id not in all_users:
         raise UserNotFoundError(error_message=f"User {user_id} not found")
 
     # Similarly for items
