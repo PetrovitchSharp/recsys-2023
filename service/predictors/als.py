@@ -56,6 +56,9 @@ class ALSRecommender(BaseRecommender):
         return reco
 
     def explain_reco(self, user_id: int, item_id: int) -> Tuple[float, List]:
+        item_id = self.item_ext_to_int_map[item_id]
+        user_id = self.user_ext_to_int_map[user_id]
+
         item_score, top_contributors, _ = self.model.model.explain(
             userid=user_id,
             user_items=self.ui_csr[: user_id + 1, :],

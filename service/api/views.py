@@ -53,10 +53,10 @@ async def explain(request: Request, model_name: str, user_id: int, item_id: int)
     if user_id not in model_warm_users:
         # Get the values needed for the explanation
         # from the dataset with the rating
-        p = round(items_rating.loc[item_id].relevancy, 4) * 100
-        views_count = items_rating.loc[item_id].views
+        p = round(items_rating.loc[item_id]["relevancy"] * 100, 4)
+        views_count = items_rating.loc[item_id]["views"]
         item_rank = items_rating.loc[item_id]["rank"]
-        item_title = items_rating.loc[item_id].title
+        item_title = items_rating.loc[item_id]["title"]
 
         # Forming an explanation
         explanation = (
@@ -68,14 +68,14 @@ async def explain(request: Request, model_name: str, user_id: int, item_id: int)
     else:
         # Get the values needed for the explanation from model itself
         item_score, top_contributor = model.explain_reco(user_id, item_id)
-        p = round(item_score, 4) * 100
-        item_title = items_rating.loc[item_id].title
-        top_contributor_title = items_rating.loc[top_contributor].title
+        p = round(item_score * 100, 4)
+        item_title = items_rating.loc[item_id]["title"]
+        top_contributor_title = items_rating.loc[top_contributor]["title"]
 
         # Forming an explanation
         explanation = (
             rf"Фильм\сериал {item_title!r} может вам {'' if p > 0 else 'не'} "
-            + rf"с вероятностью {abs(item_score)} т.к. вы посмотрели {top_contributor_title!r}"
+            + rf"с вероятностью {abs(p)}% т.к. вы посмотрели {top_contributor_title!r}"
         )
 
     return ExplainResponse(p=p, explanation=explanation)
