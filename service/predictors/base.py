@@ -12,7 +12,7 @@ class BaseRecommender(ABC):
         super().__init__()
         self.k_recs = global_cfg.k_recs
         self.model_cfg = get_predictors_config(global_cfg)
-        self._users = []
+        self._users: List[int] = []
 
     @abstractmethod
     def load_model(self, global_cfg: ServiceConfig) -> Any:
