@@ -20,7 +20,7 @@ class RandomRecommender(BaseRecommender):
 
     def explain_reco(self, user_id: int, item_id: int) -> Tuple[float, List]:
         raise NotImplementedError()
-    
+
     @property
     def users(self) -> List:
         raise NotImplementedError()
