@@ -41,7 +41,7 @@ async def explain(request: Request, model_name: str, user_id: int, item_id: int)
     items_rating = get_user_rating()
 
     # If the user is not in the database at all, we throw an error
-    if user_id not in all_users:
+    if user_id not in all_users["user_id"]:
         raise UserNotFoundError(error_message=f"User {user_id} not found")
 
     # Similarly for items
@@ -53,10 +53,10 @@ async def explain(request: Request, model_name: str, user_id: int, item_id: int)
     if user_id not in model_warm_users:
         # Get the values needed for the explanation
         # from the dataset with the rating
-        p = round(items_rating.iloc[item_id].relevancy, 4) * 100
-        views_count = items_rating.iloc[item_id].views
-        item_rank = items_rating.iloc[item_id]["rank"]
-        item_title = items_rating.iloc[item_id].title
+        p = round(items_rating.loc[item_id].relevancy, 4) * 100
+        views_count = items_rating.loc[item_id].views
+        item_rank = items_rating.loc[item_id]["rank"]
+        item_title = items_rating.loc[item_id].title
 
         # Forming an explanation
         explanation = (
@@ -69,8 +69,8 @@ async def explain(request: Request, model_name: str, user_id: int, item_id: int)
         # Get the values needed for the explanation from model itself
         item_score, top_contributor = model.explain_reco(user_id, item_id)
         p = round(item_score, 4) * 100
-        item_title = items_rating.iloc[item_id].title
-        top_contributor_title = items_rating.iloc[top_contributor].title
+        item_title = items_rating.loc[item_id].title
+        top_contributor_title = items_rating.loc[top_contributor].title
 
         # Forming an explanation
         explanation = (
