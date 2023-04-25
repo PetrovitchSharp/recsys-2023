@@ -43,8 +43,8 @@ def test_get_reco_for_unknown_user(
 
 
 def test_get_explanation_for_als_success(client: TestClient) -> None:
-    user_id = 0
-    item_id = 0
+    user_id = 699317  # user_id from mock data
+    item_id = 12173  # item_id from mock data
     path = GET_EXPLANATION_PATH.format(model_name="als", user_id=user_id, item_id=item_id)
     with client:
         response = client.get(path)

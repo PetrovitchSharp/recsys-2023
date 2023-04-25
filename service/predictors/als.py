@@ -18,7 +18,7 @@ class ALSRecommender(BaseRecommender):
     def __init__(self, global_cfg: ServiceConfig) -> None:
         super().__init__(global_cfg)
         # Loading dataset with features and list of non-cold users
-        self.dataset, self.users = get_data_with_features(
+        self.dataset, self._users = get_data_with_features(
             self.model_cfg["als"]["interactions"],
             self.model_cfg["als"]["users_features"],
             self.model_cfg["als"]["items_features"],
@@ -41,7 +41,7 @@ class ALSRecommender(BaseRecommender):
         return base_model
 
     def recommend(self, user_id: int) -> List:
-        if user_id in self.users:
+        if user_id in self._users:
             int_user_id = self.user_ext_to_int_map[user_id]
             rec = self.model.model.recommend(
                 int_user_id,
@@ -70,7 +70,7 @@ class ALSRecommender(BaseRecommender):
     @property
     def users(self):
         # Return model's hot users
-        return self.users
+        return self._users
 
     def __repr__(self) -> str:
         return f"""{type(self).__name__}(model={self.model_cfg["als"]["model_filename"]},
