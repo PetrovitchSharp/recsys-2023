@@ -45,7 +45,7 @@ async def explain(request: Request, model_name: str, user_id: int, item_id: int)
         raise UserNotFoundError(error_message=f"User {user_id} not found")
 
     # Similarly for items
-    if item_id not in items_rating.item_id.values:
+    if item_id not in items_rating.index:
         raise ItemNotFoundError(error_message=f"Item {item_id} not found")
 
     # If the model has never seen the user,
