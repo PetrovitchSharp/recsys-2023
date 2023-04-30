@@ -53,7 +53,10 @@ def test_get_explanation_for_als_for_warm_user_success(client: TestClient) -> No
     assert isinstance(response_json["p"], float)
     assert isinstance(response_json["explanation"], str)
     assert response_json["p"] == 3.3372
-    assert response_json["explanation"] == "Фильм\\сериал 'Мстители: Финал' может вам  с вероятностью 3.3372% т.к. вы посмотрели 'Прабабушка легкого поведения'"
+    assert response_json["explanation"] == (
+        "Фильм/сериал 'Мстители: Финал' может вам понравиться "
+        + "с вероятностью 3.3372% т.к. вы посмотрели 'Прабабушка легкого поведения'"
+    )
 
 
 def test_get_explanation_for_als_for_cold_user_success(client: TestClient) -> None:
@@ -67,7 +70,11 @@ def test_get_explanation_for_als_for_cold_user_success(client: TestClient) -> No
     assert isinstance(response_json["p"], float)
     assert isinstance(response_json["explanation"], str)
     assert response_json["p"] == 3.5266
-    assert response_json["explanation"] == "Фильм\\сериал 'Клиника счастья' может вам понравиться т.к. его уже посмотрели 193123 пользователей сервиса, что составляет 3.5266% от всех просмотров и занимает 2 место в нашем топе"
+    assert response_json["explanation"] == (
+        "Фильм/сериал 'Клиника счастья' может вам понравиться "
+        + "т.к. его уже посмотрели 193123 пользователей сервиса, что составляет "
+        + "3.5266% от всех просмотров и занимает 2 место в нашем топе"
+    )
 
 
 def test_get_explanation_for_unknown_model(client: TestClient) -> None:
