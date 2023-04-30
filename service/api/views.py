@@ -74,7 +74,7 @@ async def explain(request: Request, model_name: str, user_id: int, item_id: int)
 
         # Forming an explanation
         explanation = (
-            rf"Фильм/сериал {item_title!r} может вам{'' if p > 0 else 'не'} понравиться "
+            rf"Фильм/сериал {item_title!r} может вам {'' if p > 0 else 'не'} понравиться "
             + rf"с вероятностью {abs(p)}% т.к. вы посмотрели {top_contributor_title!r}"
         )
 
