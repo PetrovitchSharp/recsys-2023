@@ -9,7 +9,7 @@ from service.log import app_logger
 
 from ..models import ExplainResponse, HealthResponse, HTTPValidationError, NotFoundError, RecoResponse
 from ..predictors.constructor import get_predictor
-from ..predictors.explainer import get_all_users, get_user_rating
+from ..predictors.explainer import get_all_users, get_items_rating
 
 router = APIRouter()
 
@@ -38,7 +38,7 @@ async def explain(request: Request, model_name: str, user_id: int, item_id: int)
     model_warm_users = model.users
 
     all_users = get_all_users()
-    items_rating = get_user_rating()
+    items_rating = get_items_rating()
 
     # If the user is not in the database at all, we throw an error
     if user_id not in all_users:
