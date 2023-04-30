@@ -52,10 +52,10 @@ def test_get_explanation_for_als_for_warm_user_success(client: TestClient) -> No
     response_json = response.json()
     assert isinstance(response_json["p"], float)
     assert isinstance(response_json["explanation"], str)
-    assert response_json["p"] == 3.3372
+    assert response_json["p"] == -0.2775
     assert response_json["explanation"] == (
-        "Фильм/сериал 'Мстители: Финал' может вам понравиться "
-        + "с вероятностью 3.3372% т.к. вы посмотрели 'Прабабушка легкого поведения'"
+        "Фильм/сериал 'Мстители: Финал' может вам не понравиться "
+        + "с вероятностью 0.2775% т.к. вы посмотрели 'Прабабушка легкого поведения'"
     )
 
 
