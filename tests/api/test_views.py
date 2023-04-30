@@ -42,8 +42,8 @@ def test_get_reco_for_unknown_user(
     assert response.json()["errors"][0]["error_key"] == "user_not_found"
 
 
-def test_get_explanation_for_als_success(client: TestClient) -> None:
-    user_id = 555088  # user_id from mock data
+def test_get_explanation_for_als_for_warm_user_success(client: TestClient) -> None:
+    user_id = 555088  # warm user's user_id from mock data
     item_id = 12173  # item_id from mock data
     path = GET_EXPLANATION_PATH.format(model_name="als", user_id=user_id, item_id=item_id)
     with client:
@@ -52,7 +52,22 @@ def test_get_explanation_for_als_success(client: TestClient) -> None:
     response_json = response.json()
     assert isinstance(response_json["p"], float)
     assert isinstance(response_json["explanation"], str)
-    assert response_json["explanation"] != ""
+    assert response_json["p"] == 3.3372
+    assert response_json["explanation"] == "Фильм\\сериал 'Мстители: Финал' может вам  с вероятностью 3.3372% т.к. вы посмотрели 'Прабабушка легкого поведения'"
+
+
+def test_get_explanation_for_als_for_cold_user_success(client: TestClient) -> None:
+    user_id = 6  # cold user's user_id from mock data
+    item_id = 15297  # item_id from mock data
+    path = GET_EXPLANATION_PATH.format(model_name="als", user_id=user_id, item_id=item_id)
+    with client:
+        response = client.get(path)
+    assert response.status_code == HTTPStatus.OK
+    response_json = response.json()
+    assert isinstance(response_json["p"], float)
+    assert isinstance(response_json["explanation"], str)
+    assert response_json["p"] == 3.5266
+    assert response_json["explanation"] == "Фильм\\сериал 'Клиника счастья' может вам понравиться т.к. его уже посмотрели 193123 пользователей сервиса, что составляет 3.5266% от всех просмотров и занимает 2 место в нашем топе"
 
 
 def test_get_explanation_for_unknown_model(client: TestClient) -> None:
