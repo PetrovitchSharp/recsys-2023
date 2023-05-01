@@ -9,6 +9,13 @@ from rectools.dataset import Dataset
 from ..settings import ServiceConfig
 
 
+def get_items_list(items_dataset_name: str, global_cfg: ServiceConfig) -> List[str]:
+    """Get items list"""
+    df = pd.read_csv(os.path.join(global_cfg.dataset_path, items_dataset_name))
+
+    return df["id"].unique()
+
+
 def get_data(dataset_name: str, global_cfg: ServiceConfig) -> Tuple[Dataset, List[int]]:
     """Get data for models trained without features"""
     df = pd.read_csv(os.path.join(global_cfg.dataset_path, dataset_name))
