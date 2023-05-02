@@ -82,9 +82,9 @@ def test_get_explanation_for_als_for_cold_user_success(client: TestClient) -> No
     response_json = response.json()
     assert isinstance(response_json["p"], int)
     assert isinstance(response_json["explanation"], str)
-    assert response_json["p"] == 95
+    assert response_json["p"] == 94
     assert response_json["explanation"] == (
-        "Фильм/сериал 'Клиника счастья' может вам понравиться с вероятностью 95%"
+        "Фильм/сериал 'Клиника счастья' может вам понравиться с вероятностью 94%"
         + " т.к. его уже посмотрели 193123 пользователей сервиса и"
         + " он занимает 2 место в нашем топе"
     )

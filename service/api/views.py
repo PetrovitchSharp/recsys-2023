@@ -133,8 +133,7 @@ def _explain_using_model(
         # Explanation for cases in which the user's trying to
         # get an explanation of an item he/she has seen before
         explanation = rf"Фильм/сериал {item_title!r} может вам понравиться, " + "т.к. вы его уже посмотрели"
-
-    if p >= 10:
+    elif p >= 10:
         # Forming an explanation if p >= 10
         explanation = (
             rf"Фильм/сериал {item_title!r} может вам понравиться "
