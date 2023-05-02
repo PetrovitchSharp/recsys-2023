@@ -57,5 +57,5 @@ class HTTPValidationError(BaseModel):
 
 
 class ExplainResponse(BaseModel):
-    p: float
+    p: int
     explanation: str

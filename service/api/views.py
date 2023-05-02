@@ -31,7 +31,7 @@ async def explain(request: Request, model_name: str, user_id: int, item_id: int)
     """
     Explain recommendation
     """
-    p = 0.0
+    p = 0
     explanation = ""
 
     model = get_predictor(model_name)
@@ -53,30 +53,49 @@ async def explain(request: Request, model_name: str, user_id: int, item_id: int)
     if user_id not in model_warm_users:
         # Get the values needed for the explanation
         # from the dataset with the rating
-        p = round(items_rating.at[item_id, "relevancy"] * 100, 4)
         views_count = items_rating.at[item_id, "views"]
         item_rank = items_rating.at[item_id, "rank"]
         item_title = items_rating.at[item_id, "title"]
+        # Let's use as p a value equal to the rounded value of
+        # (-95 * (rank - 1) / (n_items - 1) + 95)
+        # (from the equation of the line passing through 2 points)
+        # Thus the higher in the ranking - the higher the score
+        # (In range [0;95])
+        p = round(-95 * (item_rank - 1) / (len(items_rating) - 1) + 95)
 
-        # Forming an explanation
-        explanation = (
-            rf"Фильм/сериал {item_title!r} может вам понравиться т.к. "
-            + rf"его уже посмотрели {views_count} пользователей сервиса, что составляет "
-            + rf"{p}% от всех просмотров и занимает {item_rank} место в нашем топе"
-        )
+        if p >= 10:
+            # Forming an explanation if p >= 10
+            explanation = (
+                rf"Фильм/сериал {item_title!r} может вам понравиться с вероятностью "
+                + rf"{p}% т.к. его уже посмотрели {views_count} пользователей сервиса "
+                + rf"и он занимает {item_rank} место в нашем топе"
+            )
+        else:
+            # Forming an explanation if p < 10%
+            explanation = rf"Фильм/сериал {item_title!r} скорее всего вам не понравится"
+
     # Otherwise we try to explain by the model itself
     else:
         # Get the values needed for the explanation from model itself
         item_score, top_contributor = model.explain_reco(user_id, item_id)
-        p = round(item_score * 100, 4)
+        p = round(item_score * 100)
         item_title = items_rating.at[item_id, "title"]
         top_contributor_title = items_rating.at[top_contributor, "title"]
 
-        # Forming an explanation
-        explanation = (
-            rf"Фильм/сериал {item_title!r} может вам {'' if p > 0 else 'не'} понравиться "
-            + rf"с вероятностью {abs(p)}% т.к. вы посмотрели {top_contributor_title!r}"
-        )
+        if top_contributor_title == item_title:
+            # Explanation for cases in which the user's trying to
+            # get an explanation of an item he/she has seen before
+            explanation = rf"Фильм/сериал {item_title!r} может вам понравиться, " + "т.к. вы его уже посмотрели"
+
+        if p >= 10:
+            # Forming an explanation if p >= 10
+            explanation = (
+                rf"Фильм/сериал {item_title!r} может вам понравиться "
+                + rf"с вероятностью {p}% т.к. вы посмотрели {top_contributor_title!r}"
+            )
+        else:
+            # Forming an explanation if p < 10%
+            explanation = rf"Фильм/сериал {item_title!r} скорее всего вам не понравится"
 
     return ExplainResponse(p=p, explanation=explanation)
 
