@@ -21,7 +21,7 @@ class RandomRecommender(BaseRecommender):
         np.random.seed(self.model_cfg["random"]["random_state"])
 
     def recommend(self, user_id: int) -> List:
-        reco = np.random.sample(self.items, self.k_recs)
+        reco = np.random.choice(self.items, self.k_recs, replace=False).tolist()
 
         return reco
 
@@ -36,5 +36,5 @@ class RandomRecommender(BaseRecommender):
         return f"""{type(self).__name__}(model={self.model_cfg["random"]["model_filename"]}"""
 
 
-def get_random_predictor(global_cfg: ServiceConfig) -> RandomRecommender:
+def get_random_predictor(global_cfg: ServiceConfig) -> BaseRecommender:
     return RandomRecommender(global_cfg)
