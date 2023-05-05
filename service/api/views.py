@@ -114,7 +114,7 @@ def _explain_using_rating(item_id: int, items_rating: DataFrame) -> Tuple[int, s
             + rf"и он занимает {item_rank} место в нашем топе"
         )
     else:
-        # Forming an explanation if p < 10%
+        # Forming an explanation if p < 10
         explanation = rf"Фильм/сериал {item_title!r} скорее всего вам не понравится"
 
     return p, explanation
@@ -129,18 +129,14 @@ def _explain_using_model(
     item_title = items_rating.at[item_id, "title"]
     top_contributor_title = items_rating.at[top_contributor, "title"]
 
-    if top_contributor_title == item_title:
-        # Explanation for cases in which the user's trying to
-        # get an explanation of an item he/she has seen before
-        explanation = rf"Фильм/сериал {item_title!r} может вам понравиться, " + "т.к. вы его уже посмотрели"
-    elif p >= 10:
+    if p >= 10:
         # Forming an explanation if p >= 10
         explanation = (
             rf"Фильм/сериал {item_title!r} может вам понравиться "
             + rf"с вероятностью {p}% т.к. вы посмотрели {top_contributor_title!r}"
         )
     else:
-        # Forming an explanation if p < 10%
+        # Forming an explanation if p < 10
         explanation = rf"Фильм/сериал {item_title!r} скорее всего вам не понравится"
 
     return p, explanation

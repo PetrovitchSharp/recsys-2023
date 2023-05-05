@@ -56,22 +56,6 @@ def test_get_explanation_for_als_for_warm_user_success(client: TestClient) -> No
     assert response_json["explanation"] == ("Фильм/сериал 'Мстители: Финал' скорее всего вам не понравится")
 
 
-def test_get_explanation_for_als_for_previously_seen_success(client: TestClient) -> None:
-    user_id = 555088  # warm user's user_id from mock data
-    item_id = 598  # item_id from mock data that has been seen by user
-    path = GET_EXPLANATION_PATH.format(model_name="als", user_id=user_id, item_id=item_id)
-    with client:
-        response = client.get(path)
-    assert response.status_code == HTTPStatus.OK
-    response_json = response.json()
-    assert isinstance(response_json["p"], int)
-    assert isinstance(response_json["explanation"], str)
-    assert response_json["p"] == 100
-    assert response_json["explanation"] == (
-        "Фильм/сериал 'Мы будем первыми!' может вам понравиться, т.к. вы его уже посмотрели"
-    )
-
-
 def test_get_explanation_for_als_for_cold_user_success(client: TestClient) -> None:
     user_id = 6  # cold user's user_id from mock data
     item_id = 15297  # item_id from mock data
