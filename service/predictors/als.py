@@ -80,5 +80,5 @@ class ALSRecommender(BaseRecommender):
                     dataset={self.model_cfg["als"]["dataset"]})"""
 
 
-def get_als_predictor(global_cfg: ServiceConfig) -> Any:
+def get_als_predictor(global_cfg: ServiceConfig) -> ALSRecommender:
     return ALSRecommender(global_cfg)
