@@ -1,5 +1,6 @@
 random:
   name: random
+  items: prepared_featured_items_full.csv
   random_state: 42
 als:
   name: als
