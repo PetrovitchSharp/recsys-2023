@@ -53,7 +53,7 @@ def test_get_explanation_for_als_for_warm_user_success(client: TestClient) -> No
     assert isinstance(response_json["p"], int)
     assert isinstance(response_json["explanation"], str)
     assert response_json["p"] == 0
-    assert response_json["explanation"] == ("Фильм/сериал 'Мстители: Финал' скорее всего вам не понравится")
+    assert response_json["explanation"] == "Фильм/сериал 'Мстители: Финал' скорее всего вам не понравится"
 
 
 def test_get_explanation_for_als_for_cold_user_success(client: TestClient) -> None:
