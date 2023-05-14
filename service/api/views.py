@@ -1,14 +1,17 @@
 from __future__ import annotations
 
-from typing import Union
+from typing import Tuple, Union
 
 from fastapi import APIRouter, FastAPI, Request
+from pandas import DataFrame
 
-from service.api.exceptions import UserNotFoundError
+from service.api.exceptions import ItemNotFoundError, UserNotFoundError
 from service.log import app_logger
 
-from ..models import HealthResponse, HTTPValidationError, NotFoundError, RecoResponse
+from ..models import ExplainResponse, HealthResponse, HTTPValidationError, NotFoundError, RecoResponse
+from ..predictors.base import BaseRecommender
 from ..predictors.constructor import get_predictor
+from ..predictors.explainer import get_all_users, get_items_rating
 
 router = APIRouter()
 
@@ -19,6 +22,41 @@ async def health() -> HealthResponse:
     Check health
     """
     return HealthResponse(health="I am alive. Everything is OK!")
+
+
+@router.get(
+    path="/explain/{model_name}/{user_id}/{item_id}",
+    tags=["Explanations"],
+    responses={"200": {"model": ExplainResponse}, "404": {"model": NotFoundError}},
+)
+async def explain(request: Request, model_name: str, user_id: int, item_id: int) -> ExplainResponse:
+    """
+    Explain recommendation
+    """
+    model = get_predictor(model_name)
+    model_warm_users = model.users
+
+    all_users = get_all_users()
+    items_rating = get_items_rating()
+
+    # If the user is not in the database at all, we throw an error
+    if user_id not in all_users:
+        raise UserNotFoundError(error_message=f"User {user_id} not found")
+
+    # Similarly for items
+    if item_id not in items_rating.index:
+        raise ItemNotFoundError(error_message=f"Item {item_id} not found")
+
+    # If the model has never seen the user,
+    # we give him/her an explanation based on the global top seen
+    if user_id not in model_warm_users:
+        p, explanation = _explain_using_rating(item_id, items_rating)
+
+    # Otherwise we try to explain by the model itself
+    else:
+        p, explanation = _explain_using_model(item_id, user_id, model, items_rating)
+
+    return ExplainResponse(p=p, explanation=explanation)
 
 
 @router.get(
@@ -53,3 +91,52 @@ async def get_reco(
 
 def add_views(app: FastAPI) -> None:
     app.include_router(router)
+
+
+def _explain_using_rating(item_id: int, items_rating: DataFrame) -> Tuple[int, str]:
+    # Get the values needed for the explanation
+    # from the dataset with the rating
+    views_count = items_rating.at[item_id, "views"]
+    item_rank = items_rating.at[item_id, "rank"]
+    item_title = items_rating.at[item_id, "title"]
+    # Let's use as p a value equal to the rounded value of
+    # (-95 * (rank - 1) / (max_rank - 1) + 95)
+    # (from the equation of the line passing through 2 points)
+    # Thus the higher in the ranking - the higher the score
+    # (In range [0;95])
+    p = round(-95 * (item_rank - 1) / (items_rating["rank"].max() - 1) + 95)
+
+    if p >= 10:
+        # Forming an explanation if p >= 10
+        explanation = (
+            rf"Фильм/сериал {item_title!r} может вам понравиться с вероятностью "
+            + rf"{p}% т.к. его уже посмотрели {views_count} пользователей сервиса "
+            + rf"и он занимает {item_rank} место в нашем топе"
+        )
+    else:
+        # Forming an explanation if p < 10
+        explanation = rf"Фильм/сериал {item_title!r} скорее всего вам не понравится"
+
+    return p, explanation
+
+
+def _explain_using_model(
+    item_id: int, user_id: int, model: BaseRecommender, items_rating: DataFrame
+) -> Tuple[int, str]:
+    # Get the values needed for the explanation from model itself
+    item_score, top_contributor = model.explain_reco(user_id, item_id)
+    p = round(item_score * 100)
+    item_title = items_rating.at[item_id, "title"]
+    top_contributor_title = items_rating.at[top_contributor, "title"]
+
+    if p >= 10:
+        # Forming an explanation if p >= 10
+        explanation = (
+            rf"Фильм/сериал {item_title!r} может вам понравиться "
+            + rf"с вероятностью {p}% т.к. вы посмотрели {top_contributor_title!r}"
+        )
+    else:
+        # Forming an explanation if p < 10
+        explanation = rf"Фильм/сериал {item_title!r} скорее всего вам не понравится"
+
+    return p, explanation

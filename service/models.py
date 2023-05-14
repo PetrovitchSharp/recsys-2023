@@ -54,3 +54,8 @@ class HealthResponse(BaseModel):
 
 class HTTPValidationError(BaseModel):
     detail: Optional[List[ValidationError]] = Field(None, title="Validation Error")
+
+
+class ExplainResponse(BaseModel):
+    p: int
+    explanation: str

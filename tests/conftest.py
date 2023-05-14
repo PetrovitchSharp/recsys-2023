@@ -17,6 +17,7 @@ def set_env() -> Iterator[None]:
     root_path = os.getcwd()
     monkeypatch.setenv("PREDICTORS_PATH", os.path.join(root_path, "tests/mock_data/predictors"))
     monkeypatch.setenv("DATASET_PATH", os.path.join(root_path, "tests/mock_data/dataset"))
+    monkeypatch.setenv("EXPLANATION_DATA_PATH", os.path.join(root_path, "tests/mock_data/explanation_data"))
 
     yield
 

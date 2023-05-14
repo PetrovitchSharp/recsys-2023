@@ -25,6 +25,7 @@ COPY --from=build service ./service
 
 ENV DATASET_PATH=/usr/src/app/service/data/dataset
 ENV PREDICTORS_PATH=/usr/src/app/service/data/predictors
+ENV EXPLANATION_DATA_PATH=/usr/src/app/service/data/explanation_data
 
 RUN pip install -U --no-cache-dir pip dist/*.whl && \
     rm -rf dist

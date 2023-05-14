@@ -1,4 +1,4 @@
-from typing import Any, List
+from typing import Any, List, Tuple
 
 import numpy as np
 
@@ -21,13 +21,20 @@ class RandomRecommender(BaseRecommender):
         np.random.seed(self.model_cfg["random"]["random_state"])
 
     def recommend(self, user_id: int) -> List:
-        reco = np.random.choice(self.items, self.k_recs).tolist()
+        reco = np.random.choice(self.items, self.k_recs, replace=False).tolist()
 
         return reco
+
+    def explain_reco(self, user_id: int, item_id: int) -> Tuple[float, List]:
+        raise NotImplementedError()
+
+    @property
+    def users(self) -> List:
+        raise NotImplementedError()
 
     def __repr__(self) -> str:
         return f"""{type(self).__name__}(model={self.model_cfg["random"]["model_filename"]}"""
 
 
-def get_random_predictor(global_cfg: ServiceConfig) -> Any:
+def get_random_predictor(global_cfg: ServiceConfig) -> BaseRecommender:
     return RandomRecommender(global_cfg)

@@ -26,6 +26,7 @@ class ServiceConfig(Config):
     root_path: str = os.getcwd()
     predictors_path: str
     dataset_path: str
+    explanation_data_path: str
 
     log_config: LogConfig
 
