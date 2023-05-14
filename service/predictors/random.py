@@ -2,9 +2,6 @@ from typing import Any, List, Tuple
 
 import numpy as np
 
-
-import numpy as np
-
 from ..settings import ServiceConfig
 from .base import BaseRecommender
 from .utils import get_items_list

@@ -104,7 +104,7 @@ def _explain_using_rating(item_id: int, items_rating: DataFrame) -> Tuple[int, s
     # (from the equation of the line passing through 2 points)
     # Thus the higher in the ranking - the higher the score
     # (In range [0;95])
-    p = round(-95 * (item_rank - 1) / (items_rating['rank'].max() - 1) + 95)
+    p = round(-95 * (item_rank - 1) / (items_rating["rank"].max() - 1) + 95)
 
     if p >= 10:
         # Forming an explanation if p >= 10
