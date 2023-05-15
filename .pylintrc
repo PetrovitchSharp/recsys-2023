@@ -53,16 +53,9 @@ unsafe-load-any-extension=no
 confidence=
 
 # Disable the message, report, category or checker with the given id(s).
-disable=print-statement,
-        parameter-unpacking,
-        unpacking-in-except,
-        old-raise-syntax,
-        backtick,
-        long-suffix,
-        old-ne-operator,
-        old-octal-literal,
+disable=R0022,
+        W0012,
         import-star-module-level,
-        non-ascii-bytes-literal,
         raw-checker-failed,
         bad-inline-option,
         locally-disabled,
@@ -216,10 +209,6 @@ max-line-length=120
 # Maximum number of lines in a module.
 max-module-lines=1000
 
-# List of optional constructs for which whitespace checking is disabled.
-no-space-check=trailing-comma,
-               dict-separator
-
 # Allow the body of a class to be on the same line as the declaration
 # if body contains single statement.
 single-line-class-stmt=no
@@ -312,9 +301,6 @@ method-naming-style=snake_case
 # Overrides method-naming-style.
 # method-rgx=
 
-# Naming hint for argument names.
-argument-name-hint=[a-z_][a-z0-9_]{2,15}$
-
 # Naming style matching correct module names.
 module-naming-style=snake_case
 
@@ -337,9 +323,6 @@ property-classes=abc.abstractproperty
 
 # Naming style matching correct variable names.
 variable-naming-style=snake_case
-
-# Naming hint for variable names.
-variable-name-hint=[a-z_][a-z0-9_]{2,15}$
 
 # Regular expression matching correct variable names.
 # Overrides variable-naming-style.

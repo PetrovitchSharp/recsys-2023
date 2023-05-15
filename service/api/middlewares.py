@@ -1,15 +1,13 @@
 import time
 
 from fastapi import FastAPI, Request
-from starlette.middleware.base import (
-    BaseHTTPMiddleware,
-    RequestResponseEndpoint,
-)
+from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
 from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import Response
 
 from service.log import access_logger, app_logger
 from service.models import Error
+from service.prometheus import add_prometheus_middleware
 from service.response import server_error
 
 
@@ -46,9 +44,7 @@ class ExceptionHandlerMiddleware(BaseHTTPMiddleware):
         try:
             return await call_next(request)
         except Exception as e:  # pylint: disable=W0703,W1203
-            app_logger.exception(
-                msg=f"Caught unhandled {e.__class__} exception: {e}"
-            )
+            app_logger.exception(msg=f"Caught unhandled {e.__class__} exception: {e}")
             error = Error(
                 error_key="server_error",
                 error_message="Internal Server Error",
@@ -58,6 +54,7 @@ class ExceptionHandlerMiddleware(BaseHTTPMiddleware):
 
 def add_middlewares(app: FastAPI) -> None:
     # do not change order
+    add_prometheus_middleware(app)
     app.add_middleware(ExceptionHandlerMiddleware)
     app.add_middleware(AccessMiddleware)
     app.add_middleware(

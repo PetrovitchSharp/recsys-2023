@@ -1,3 +1,6 @@
+# mypy: disable-error-code="call-arg"
+import os
+
 from pydantic import BaseSettings
 
 
@@ -20,6 +23,10 @@ class LogConfig(Config):
 class ServiceConfig(Config):
     service_name: str = "reco_service"
     k_recs: int = 10
+    root_path: str = os.getcwd()
+    predictors_path: str
+    dataset_path: str
+    explanation_data_path: str
 
     log_config: LogConfig
 

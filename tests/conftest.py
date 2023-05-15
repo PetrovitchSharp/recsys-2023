@@ -1,5 +1,9 @@
 # pylint: disable=redefined-outer-name
+import os
+from typing import Iterator
+
 import pytest
+from _pytest.monkeypatch import MonkeyPatch
 from fastapi import FastAPI
 from starlette.testclient import TestClient
 
@@ -8,7 +12,20 @@ from service.settings import ServiceConfig, get_config
 
 
 @pytest.fixture
-def service_config() -> ServiceConfig:
+def set_env() -> Iterator[None]:
+    monkeypatch = MonkeyPatch()
+    root_path = os.getcwd()
+    monkeypatch.setenv("PREDICTORS_PATH", os.path.join(root_path, "tests/mock_data/predictors"))
+    monkeypatch.setenv("DATASET_PATH", os.path.join(root_path, "tests/mock_data/dataset"))
+    monkeypatch.setenv("EXPLANATION_DATA_PATH", os.path.join(root_path, "tests/mock_data/explanation_data"))
+
+    yield
+
+    monkeypatch.undo()
+
+
+@pytest.fixture
+def service_config(set_env: None) -> ServiceConfig:
     return get_config()
 
 
